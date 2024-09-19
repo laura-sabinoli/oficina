@@ -1,0 +1,357 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+.main-body {
+    background-color: white; /* Fundo branco da tela principal */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin-top: 5%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0a2139; /* Azul escuro */
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px; /* Altura ajustada da navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000; /* Certifique-se de que a navbar fica sobre outros elementos */
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+}
+
+.logo img {
+    width: 100px; /* Ajuste a largura da logo */
+    height: auto;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    flex-grow: 1; /* Permite que o nav ocupe o espaço disponível */
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.logout-container {
+    margin-left: 10%; /* Empurra o botão de logout para o final */
+}
+
+.logout {
+    background-color: #e74c3c; /* Vermelho do botão Sair */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.logout:hover {
+    background-color: #c0392b; /* Vermelho mais escuro ao passar o mouse */
+}
+
+.main-containerPeincipal {
+    flex: 1;
+    padding: 2%; /* Adiciona padding superior para evitar sobreposição com a navbar */
+    background-color: white; /* Fundo branco */
+    margin-top: 0px; /* Ajuste a margem superior para evitar a sobreposição com a navbar */
+}
+
+.pesquisar-container {
+    display: flex;
+    justify-content: center; /* Centraliza a barra de pesquisa */
+    align-items: center;
+    margin: 3% auto 20px auto; /* Margem superior ajustada para 3% */
+    background-color: #f0f0f0; /* Fundo cinza claro do contêiner de pesquisa */
+    padding: 10px;
+    border-radius: 10px;
+    width: 50%; /* Largura da barra de pesquisa */
+}
+
+.pesquisar-container input[type="text"] {
+    width: 85%; /* Ajuste a largura conforme necessário */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.pesquisar-container .search-button {
+    background-color: #0d2b4c; /* Azul escuro do botão de pesquisa */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.order-button {
+    background-color: #f1c40f; /* Amarelo do botão Ordem de serviço */
+    color: #0d2b4c;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-bottom: 20px;
+    margin-left: 75%;
+    font-family: 'Rubik', sans-serif;;
+}
+
+.order-button:hover {
+    background-color: #d4ac0d; /* Amarelo mais escuro ao passar o mouse */
+}
+
+.tableOrdemService {
+    background-color: #f0f0f0; /* Fundo cinza claro do contêiner de pesquisa */
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    display: flex; /* Usar Flexbox */
+    flex-direction: column;
+    align-items: center; /* Centralizar horizontalmente */
+    justify-content: center; /* Centralizar verticalmente */
+}
+
+.table-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centraliza a tabela horizontalmente */
+    background-color: #f5f5f5; 
+    border-radius: 1%;
+    border: 2px solid #c5c5c5; 
+}
+
+table {
+    width: 100%; /* Ou você pode definir uma largura fixa */
+    border-collapse: collapse;
+    background-color: #fffefe; 
+}
+
+thead th {
+    text-align: center;
+    padding: 8px;
+    background-color: #ffffff; 
+}
+
+tbody td {
+    padding: 8px;
+    background-color: #f5f5f5; 
+}
+
+
+.cadastro-form {
+    background-color: #f5f5f5; 
+    padding: 2%;
+    border-radius: 10px;
+    margin: 5%; 
+    width: 70%; 
+}
+
+.cadastro-form h2 {
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 10px;
+    justify-content: center;  
+}
+
+label.rubik-bold {
+    font-family: 'Rubik', sans-serif;
+    color: #333; 
+    align-items: center;
+    text-align: center;
+    width: 10%;
+    text-align: center; 
+    margin-right: 2%;
+}
+
+input[type="text"],
+input[type="password"] {
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    border-radius: 5px;
+    font-family: 'Rubik', sans-serif;
+    width: 65%; 
+}
+input[type="text"]#numero{
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    border-radius: 5px;
+    font-family: 'Rubik', sans-serif;
+    width: 20%;
+}
+
+select {
+    border: 1px solid #ccc; 
+    padding: 10px; 
+    border-radius: 5px;
+    font-family: 'Rubik', sans-serif;
+    width: 65%; 
+}
+
+.button-group {
+    margin-top: 20px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-family: 'Rubik', sans-serif;
+    color: white; /* Cor do texto dos botões */
+    background-color: #0d2b4c; /* Azul escuro para os botões */
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0a2139; /* Azul mais escuro ao passar o mouse */
+}
+
+/* Estilo para o container ao redor do formulário */
+.main-container {
+    background-color: #f0f0f0; /* Fundo cinza claro */
+    padding: 1%;
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    width: 60%; /* Ajusta a largura do container */
+}
+
+.form-group-inline {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .form-group {
+    display: flex;
+    align-items: center;
+    flex:1; /* Makes each group take up half the available space */
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form-group input[type="text"]#numero {
+    width: 40%; /* Fixed width for the "Nº" field */
+    margin-right: 10px; /* Adds spacing between fields */
+  }
+  
+  .form-group input[type="text"]#cep {
+    width: 40%;
+  }
+
+
+button:not(:last-child) {
+    margin-right: 10px;
+}
+
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #0d2b4c; /* Fundo azul escuro */
+}
+
+.login-box {
+    background-color: #cacaca; /* Fundo cinza claro */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px; /* Largura da caixa de login */
+}
+
+.login-box .logo img {
+    width: 150px; /* Ajuste a largura da logo conforme necessário */
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza os elementos do formulário */
+}
+
+.login-form label {
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+    width: 100%;
+    text-align: left; /* Alinha o texto dos labels à esquerda */
+}
+
+.login-form input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%; /* Largura total do input */
+    box-sizing: border-box; /* Inclui padding e border no total da largura */
+}
+
+.login-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #0d2b4c;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%; /* Largura total do botão */
+}
+
+.login-form button:hover {
+    background-color: #0a2139;
+}
+
+.register-link {
+    margin-top: 10px;
+    color: #0d2b4c;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+h3{
+    color: #494949;
+    margin-bottom: 20px;
+    text-align: center;
+}
