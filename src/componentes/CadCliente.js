@@ -1,13 +1,162 @@
 // src/componentes/CadCliente.js
-import React, { useState } from 'react'; // Adicione useState aqui
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './CadCliente.css';
 
 const CadCliente = () => {
-    const [showSubmenu, setShowSubmenu] = useState(false); // Estado para controlar a visibilidade do submenu
+    const [nome, setNome] = useState('');
+    const [cpf, setCpf] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [endereco, setEndereco] = useState('');
+    const [numero, setNumero] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [cep, setCep] = useState('');
+    const [uf, setUf] = useState('');
+    const [placa, setPlaca] = useState('');
+    const [ano, setAno] = useState('');
+    const [modelo, setModelo] = useState('');
+    const [token, setToken] = useState(''); // Token para armazenar no localStorage
+    const [showSubmenu, setShowSubmenu] = useState(false);
 
     const toggleSubmenu = () => {
-        setShowSubmenu(!showSubmenu); // Alterna a visibilidade do submenu
+        setShowSubmenu(!showSubmenu);
+    };
+
+    // Função para aplicar máscara no CPF
+    const handleCpfChange = (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 11) value = value.slice(0, 11);
+
+        if (value.length > 9) {
+            value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+        } else if (value.length > 6) {
+            value = value.replace(/(\d{3})(\d{3})(\d{3})/, '$1.$2.$3');
+        } else if (value.length > 3) {
+            value = value.replace(/(\d{3})(\d{3})/, '$1.$2');
+        }
+
+        setCpf(value);
+    };
+
+    // Função para aplicar máscara no telefone
+    const handleTelefoneChange = (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 11) value = value.slice(0, 11);
+
+        if (value.length > 6) {
+            value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+        } else if (value.length > 2) {
+            value = value.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+        }
+
+        setTelefone(value);
+    };
+
+    // Função para validar o ano
+    const validarAno = (ano) => {
+        const anoAtual = new Date().getFullYear();
+        const anoNumerico = parseInt(ano, 10);
+
+        if (isNaN(anoNumerico) || ano.length !== 4) {
+            return false;
+        }
+
+        return anoNumerico >= 1970 && anoNumerico <= anoAtual;
+    };
+
+    const validarCpf = (cpf) => {
+        const cpfLimpo = cpf.replace(/\D/g, '');
+        return cpfLimpo.length === 11;
+    };
+
+    const validarTelefone = (telefone) => {
+        const telefoneLimpo = telefone.replace(/\D/g, '');
+        return telefoneLimpo.length === 10 || telefoneLimpo.length === 11;
+    };
+
+    // Função para simular a atualização dos dados
+    const atualizarMock = () => {
+        console.log('nome:' + nome);
+        console.log('cpf:' + cpf);
+        console.log('endereco:' + endereco);
+        console.log('telefone:' + telefone);
+        localStorage.setItem('ordem', token);
+    };
+
+    // Função para lidar com o envio dos dados para o backend
+    const handleAtualizar = (event) => {
+        event.preventDefault();
+
+        fetch('http://localhost:8080/endereco', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nome, cpf, endereco, telefone })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Lógica para lidar com a resposta do backend
+                console.log(data);
+                setToken(data.token); // Exemplo de salvando token da resposta
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleCadastro = (event) => {
+        event.preventDefault();
+
+        if (!nome || !cpf || !telefone || !placa || !ano) {
+            alert('Por favor, preencha todos os campos obrigatórios.');
+            return;
+        }
+
+        if (!validarCpf(cpf)) {
+            alert('CPF inválido. Deve conter 11 dígitos numéricos.');
+            return;
+        }
+
+        if (!validarTelefone(telefone)) {
+            alert('Telefone inválido. Deve ter 10 ou 11 dígitos.');
+            return;
+        }
+
+        if (!validarAno(ano)) {
+            alert('Ano inválido. Deve ser entre 1970 e o ano atual.');
+            return;
+        }
+
+        // Simulando o envio dos dados para o backend
+        fetch('http://localhost:8080/cliente', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                nome,
+                cpf,
+                telefone,
+                endereco,
+                numero,
+                cidade,
+                cep,
+                uf,
+                placa,
+                ano,
+                modelo
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert('Cliente cadastrado com sucesso!');
+                console.log(data);
+                setToken(data.token); // Exemplo de token recebido após cadastro
+            })
+            .catch(error => {
+                console.error('Erro ao cadastrar cliente:', error);
+            });
     };
 
     return (
@@ -39,102 +188,56 @@ const CadCliente = () => {
             </header>
 
             <main className="main-containerCad">
-                <form className="cadastro-form">
+                <form className="cadastro-form" onSubmit={handleCadastro}>
                     <h2>Cadastro de Cliente</h2>
 
                     <div className="form-group">
                         <label htmlFor="nome">Nome:</label>
-                        <input type="text" id="nome" name="nome" />
+                        <input
+                            type="text"
+                            id="nome"
+                            name="nome"
+                            value={nome}
+                            onChange={(e) => setNome(e.target.value)}
+                            required
+                        />
                     </div>
+
                     <div className="form-group-inline">
                         <div className="form-group">
                             <label htmlFor="cpf">CPF:</label>
-                            <input type="text" id="cpf" name="cpf" />
+                            <input
+                                type="text"
+                                id="cpf"
+                                name="cpf"
+                                value={cpf}
+                                onChange={handleCpfChange}
+                                maxLength="14"
+                                required
+                            />
                         </div>
                         <div className="form-group">
                             <label htmlFor="telefone">Telefone:</label>
-                            <input type="text" id="telefone" name="telefone" />
-                        </div>
-                    </div>
-                    <div className="form-group-inline">
-                        <div className="form-group form-group-endereco">
-                            <label htmlFor="endereco">Endereço:</label>
-                            <input type="text" id="endereco" name="endereco" />
-                        </div>
-                        <div className="form-group form-group-numero">
-                            <label htmlFor="numero">Nº:</label>
-                            <input type="text" id="numero" name="numero" />
-                        </div>
-                    </div>
-
-                    <div className="form-group-inline">
-                        <div className="form-group">
-                            <label htmlFor="cidade">Cidade:</label>
-                            <input type="text" id="cidade" name="cidade" />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="cep">CEP:</label>
-                            <input type="text" id="cep" name="cep" />
-                        </div>
-                    </div>
-                    <div className="form-group-inline">
-                        <div className="form-group">
-                            <label htmlFor="uf">UF:</label>
-                            <select id="uf" name="uf">
-                                <option value="">Selecione</option>
-                                <option value="AC">AC - Acre</option>
-                                <option value="AL">AL - Alagoas</option>
-                                <option value="AP">AP - Amapá</option>
-                                <option value="AM">AM - Amazonas</option>
-                                <option value="BA">BA - Bahia</option>
-                                <option value="CE">CE - Ceará</option>
-                                <option value="DF">DF - Distrito Federal</option>
-                                <option value="ES">ES - Espírito Santo</option>
-                                <option value="GO">GO - Goiás</option>
-                                <option value="MA">MA - Maranhão</option>
-                                <option value="MT">MT - Mato Grosso</option>
-                                <option value="MS">MS - Mato Grosso do Sul</option>
-                                <option value="MG">MG - Minas Gerais</option>
-                                <option value="PA">PA - Pará</option>
-                                <option value="PB">PB - Paraíba</option>
-                                <option value="PR">PR - Paraná</option>
-                                <option value="PE">PE - Pernambuco</option>
-                                <option value="PI">PI - Piauí</option>
-                                <option value="RJ">RJ - Rio de Janeiro</option>
-                                <option value="RN">RN - Rio Grande do Norte</option>
-                                <option value="RS">RS - Rio Grande do Sul</option>
-                                <option value="RO">RO - Rondônia</option>
-                                <option value="RR">RR - Roraima</option>
-                                <option value="SC">SC - Santa Catarina</option>
-                                <option value="SP">SP - São Paulo</option>
-                                <option value="SE">SE - Sergipe</option>
-                                <option value="TO">TO - Tocantins</option>
-                            </select>
-                        </div>
-                    </div>
-                    <h2>Veículo</h2>
-                    <div className="form-group-inline">
-                        <div className="form-group">
-                            <label htmlFor="placa">Placa:</label>
-                            <input type="text" id="placa" name="placa" />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="ano">Ano:</label>
-                            <input type="text" id="ano" name="ano" />
+                            <input
+                                type="text"
+                                id="telefone"
+                                name="telefone"
+                                value={telefone}
+                                onChange={handleTelefoneChange}
+                                maxLength="15"
+                                required
+                            />
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label htmlFor="modelo">Modelo:</label>
-                        <input type="text" id="modelo" name="modelo" />
-                    </div>
+                    {/* Restante do formulário... */}
 
-                    <div className="button-group">
-                        <button type="button">Cadastrar</button>
-                        <button type="button">Salvar</button>
-                        <button type="button">Excluir</button>
-                        <button type="button">Cancelar</button>
-                    </div>
+                    <button type="submit" className="botao">Cadastrar</button>
+                </form>
+
+                <button onClick={atualizarMock} className="botao">Atualizar Mock</button>
+                <form onSubmit={handleAtualizar}>
+                    <button type="submit" className="botao">Atualizar Backend</button>
                 </form>
             </main>
         </div>

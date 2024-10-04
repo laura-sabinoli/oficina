@@ -173,3 +173,6 @@ input[type="text"]#numero {
     font-weight: bold;
     padding: 38%;
 }
+.invalid {
+    border: 2px solid red;
+}
